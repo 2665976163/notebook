@@ -4,7 +4,7 @@
 2. 通过配置文件声明自定义方法为 Before After
 3. 通过注解来声明
 
-
+![](img/SpringFrameworkRuntime.jpg)
 
 > 使用 Spring aop 标签需要在beans标签中添加属性
 

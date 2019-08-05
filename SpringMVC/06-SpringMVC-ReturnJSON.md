@@ -34,6 +34,7 @@ public Collection<Student> returnJSON () {
 
 1. 将需要放回的数据作为`返回值`
 2. 并在方法上添加 `@ResponseBody` 注解
+3. 若报错在SpringMVC中添加: `<mvc:annotation-driven />`
 
 > 编写`ajax`请求获取数据
 

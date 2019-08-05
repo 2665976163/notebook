@@ -37,6 +37,47 @@ public class HelloView implements View {
 </bean>
 ```
 
+> 视图解析器:
+
+| URL视图  | InternalResourceView         | 将JSP资源封装成一个视图，是springmvc默认使用的视图解析器。   |
+| -------- | ---------------------------- | ------------------------------------------------------------ |
+| URL视图  | JstlView                     | 如果jsp项目中导入了jstl标签的jar包，则springmvc会自动使用该视图解析器。 |
+| 文档视图 | AbstractExcelView            | Excel文档视图的抽象类，该视图基于POI构造Excel文档            |
+| 文档视图 | AbstractPdfVIew              | PDF文档视图的抽象类，该视图基于iText构建Pdf文档              |
+| 报表视图 | ConfigurableJsperReportsView | 几个使用JasperReports报表技术的视图                          |
+| 报表视图 | JasperReportsCsvView         | 几个使用JasperReports报表技术的视图                          |
+| 报表视图 | JasperReportsMultiFormatView | 几个使用JasperReports报表技术的视图                          |
+| 报表视图 | JasperReportsHtmlView        | 几个使用JasperReports报表技术的视图                          |
+| 报表视图 | JasperReportsPdfView         | 几个使用JasperReports报表技术的视图                          |
+| 报表视图 | JasperReportsXlsView         | 几个使用JasperReports报表技术的视图                          |
+| JSON视图 | MapingJacksonJsonView        | 将模型通过Jackson开源框架的ObjectMapper以Json方式输出        |
+
+---
+
+> 导出表格视图解析器
+
+```java
+public class ExcelDemo extends AbstractExcelView {
+
+	@Override
+	protected void buildExcelDocument(Map<String, Object> model, HSSFWorkbook workbook, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
+		HSSFSheet sheet = workbook.createSheet();
+		
+		HSSFRow row = sheet.createRow(1);
+		HSSFCell cell = row.createCell(1);
+		cell.setCellValue("excel");
+		
+		response.setContentType("application/vnd.ms-excel");     
+        response.setHeader("Content-disposition", "attachment;filename=abc.xlsx");
+		workbook.write(response.getOutputStream());
+		
+	}
+
+}
+```
+
 > 编写 @RequestMapping 处理请求
 
 ```java

@@ -43,3 +43,8 @@
 1. 在有时候我们访问静态资源的时候 SpringMVC 会抛出没有这个映射
 2. 这时候我们可以添加: 	`<mvc:default-servlet-handler />`注解来解决这个问题
 3. 但是添加注解后又导致访问方法有不好用了这时候添加: `<mvc:annotation-driven></mvc:annotation-driven>` 注解来解决
+
+---
+
+> SpringMVC 跨域问题解决: 通过`@CrossOrigin`
+

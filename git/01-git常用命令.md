@@ -116,8 +116,29 @@ git merge branchName
 
 ---
 
-> 问题: 为啥我在子分区中创建文件主分区也会创建
+> 问题: 为啥我在子分区中创建文件主分区也会创建: `没有提交到本地库`
 
 > 先重新设置本机git配置：`git config --global credential.helper store`
 
 > 添加远程分支：`git remote add origin 'https://github.com/***.git'` 
+
+---
+
+> 文件版本回退
+
+> 查看文件历史版本: $ git log --oneline `fileName`
+
+```cmd
+$ git log --oneline temp.txt
+OR
+$ git reflog
+```
+
+> 回退文件版本: $ git reset --hard HEAD~`回退几个版本` 
+
+```cmd
+$ git reset --hard HEAD~6
+OR
+$ git reset --hard f87dd65dd64cef5445c55180dcd038963da9f481
+```
+

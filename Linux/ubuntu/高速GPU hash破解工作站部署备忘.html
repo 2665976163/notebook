@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.9 (454042)"/><meta name="created" content="2017-08-24 12:49:38 +0000"/><meta name="source" content="web.clip"/><meta name="source-url" content="https://klionsec.github.io/2017/04/30/GPU-HASH-CRACK/"/><meta name="updated" content="2018-08-16 11:06:32 +0000"/><title>高速GPU hash破解工作站部署备忘</title></head><body>
+<div style="-evernote-webclip:true"><br/>
+<div style="font-size: 16px; display: inline-block;">
+<div style="font-family:sans-serif;text-size-adjust:100%;box-sizing:border-box;font-size:16px;-webkit-tap-highlight-color:transparent;">
+<div style="box-sizing: inherit; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; font-size: 1rem; background-color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;">
+<div style="box-sizing:inherit;">
+<div style="box-sizing:inherit;">
+<div style="box-sizing:inherit;">
+<div style="box-sizing: inherit;">
+<div style="box-sizing:inherit;">
+<div style="box-sizing:inherit;">
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"><br style="box-sizing:inherit;"/>
+<br style="box-sizing:inherit;"/>
+0x01 首先,购买组装好所有硬件,插上网线,加电开始测试,观察硬件是否全部工作正常,确认没问题以后,再继续后面的步骤,本次自己用于测试的各类硬件具体型号如下,一套下来三万五左右,这个配置作为GPU破解来讲并不算高,如果你不缺钱,完全可以买更好的:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:4.171623185099484%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+<div style="box-sizing:inherit;height:1.45em;">5</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:95.82837681490052%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">supermicro超微<span style="box-sizing: inherit;">7048</span>GR-TR准系统 双路塔式工作站<span style="box-sizing: inherit;">4</span> GPU运算服务器 |一台</div>
+<div style="box-sizing:inherit;height:1.45em;">Intel/英特尔 XEON至强 E5<span style="box-sizing: inherit;">-2620</span> V3 <span style="box-sizing: inherit;">15</span>M <span style="box-sizing: inherit;">2.4</span>G <span style="box-sizing: inherit;">6</span>核<span style="box-sizing: inherit;">12</span>线 |<span style="box-sizing: inherit;">2</span>颗</div>
+<div style="box-sizing:inherit;height:1.45em;">金士顿 <span style="box-sizing: inherit;">16</span>G DDR4 REG ECC <span style="box-sizing: inherit;">2133</span> 服务器内存条 |<span style="box-sizing: inherit;">2</span>根</div>
+<div style="box-sizing:inherit;height:1.45em;">三星(SAMSUNG) <span style="box-sizing: inherit;">850</span> PRO <span style="box-sizing: inherit;">512</span>G SATA3 固态硬盘 |<span style="box-sizing: inherit;">2</span>块</div>
+<div style="box-sizing:inherit;height:1.45em;">NVIDIA技嘉GTX1070 Founders Edition <span style="box-sizing: inherit;">8</span>G | <span style="box-sizing: inherit;">4</span>张 <span style="box-sizing: inherit;">32</span>G GPU</div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x02 下载安装 ubuntu-14.04.5-desktop-amd64,直接将其做成系统启动U盘,具体下载地址如下:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">http:<span style="box-sizing: inherit;">//</span>releases.ubuntu.com<span style="box-sizing: inherit;">/14.04/u</span>buntu-<span style="box-sizing: inherit;">14.04</span>.<span style="box-sizing: inherit;">5</span>-desktop-amd64.iso</div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">安装系统,装完以后先进行一些必要的准备工作:<br style="box-sizing:inherit;"/>
+首先,全面更新系统<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">apt-get update &amp;&amp; apt-get upgrade -y</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now 对这样的大规模更新,完成后务必立即重启系统</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">apt-get install linux-headers-`uname -r` -y 为了防止下面编译过程中出错,这里我就提前把对应的内核头文件都装上了</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now</span></div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<a style="box-sizing: inherit; background-color: transparent; text-decoration: none; border-bottom-width: 1px; border-bottom-style: dotted; border-bottom-color: rgb(215, 236, 255); cursor: pointer; transition: text-shadow 0.3s ease, border-bottom-color 0.5s ease;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">重启没问题以后,再安装一些必要的工具,主要是opencl头文件和opencl相关的工具集….:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"># apt-<span style="box-sizing:inherit;">get</span> install <span style="box-sizing: inherit;">build-essential</span> lsb-core clinfo ocl-icd-opencl-dev opencl-headers ocl-icd-libopencl1 gcc git -y</div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<div style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">
+<div>0x03 下载编译安装 Intel OpenCL 驱动,具体地址如下:</div>
+</div>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3070764462809916%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">
+<div>1<span style="font-size: 13px;"><span style="font-family: Menlo;">t</span></span></div>
+</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<div style="box-sizing:inherit;height:1.45em;">http:<span style="box-sizing: inherit;">//</span>registrationcenter-download.intel.com<span style="box-sizing: inherit;">/akdlm/i</span>rc_nas<span style="box-sizing: inherit;">/9019/</span>opencl_runtime_16.<span style="box-sizing: inherit;">1</span>_x64_ubuntu_5.<span style="box-sizing: inherit;">2.0</span>.<span style="box-sizing: inherit;">10002</span>.tgz</div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">具体的安装过程就非常简单了,全部一键傻瓜化:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+<div style="box-sizing:inherit;height:1.45em;">5</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">tar xf opencl_runtime_16.1_x64_ubuntu_5.2.0.10002.tgz</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;"><span style="box-sizing: inherit;">cd</span> opencl_runtime_16.1_x64_ubuntu_5.2.0.10002/</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">bash install.sh</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now 还是那句话,务必在装完以后立马重启机器</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">clinfo 重启以后看看系统有没有真正识别opencl套件,如果没有识别,务必先把问题解决了再往下继续,否则都是徒劳</span></div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x04 接着准备安装英伟达显卡驱动:<br style="box-sizing:inherit;"/>
+重启以后,记得不要登录图形界面系统,直接按Ctrl + Alt + F1 进入字符终端模式,进到内核模块目录,通过配置文件的方式,禁用nouveau驱动,操作如下:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+<div style="box-sizing:inherit;height:1.45em;">5</div>
+<div style="box-sizing:inherit;height:1.45em;">6</div>
+<div style="box-sizing:inherit;height:1.45em;">7</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;"><span style="box-sizing: inherit;">cd</span> /etc/modprobe.d/</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">touch blacklist-nouveau.conf</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">vi blacklist-nouveau.conf</span></div>
+<div style="box-sizing:inherit;height:1.45em;">blacklist nouveau</div>
+<div style="box-sizing:inherit;height:1.45em;">options nouveau modeset=0</div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">update-initramfs -u</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now 修改完配置以后立马重启机器</span></div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x05 下载安装英伟达显卡驱动,在安装过程中会有很多交互,根据实际需求进行选择:<br style="box-sizing:inherit;"/>
+同样是不要登录图形界面,按 Ctrl + Alt + F1 进到字符终端模式,并停掉相关的图形服务<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;margin:0px;width:100%;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;text-align:right;padding:8px;width:3.3057851239669422%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+<div style="box-sizing:inherit;height:1.45em;">5</div>
+<div style="box-sizing:inherit;height:1.45em;">6</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;width:96.69421487603306%;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">/etc/init.d/lightdm stop lightdm是一个Linux桌面显示管理器,在安装显卡驱动过程中需要把相关的图形服务全部停掉,安装完以后再起起来</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">chmod +x NVIDIA-Linux-x86_64-375.20.run</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">bash NVIDIA-Linux-x86_64-375.20.run --no-opengl-files</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">modprobe nvidia</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">/etc/init.d/lightdm start</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now 重新回到图形界面</span></div>
+</td>
+</tr>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x06 下载编译安装最新版的 hashcat,具体的编译安装方法在压缩包的 BUILD.md 文件中[不过这个似乎还有些问题]已有说明,可先用下面的方法来装:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;width:100%;margin:0px;">
+<tbody style="box-sizing:inherit;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;width:40px;text-align:right;padding:8px;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+<div style="box-sizing:inherit;height:1.45em;">2</div>
+<div style="box-sizing:inherit;height:1.45em;">3</div>
+<div style="box-sizing:inherit;height:1.45em;">4</div>
+<div style="box-sizing:inherit;height:1.45em;">5</div>
+<div style="box-sizing:inherit;height:1.45em;">6</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">git <span style="box-sizing: inherit;">clone</span> https://github.com/hashcat/hashcat.git</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;"><span style="box-sizing: inherit;">cd</span> hashcat/</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">git submodule update --init --recursive 为了防止下载缺少文件,请执行该语句</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">make &amp;&amp; make install</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;"><span style="box-sizing: inherit;">echo</span> $?</span></div>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">shutdown -r now 务必在装完以后立马重启机器</span></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x07 运行 hashcat 测试破解速度,调整GPU参数:<br style="box-sizing:inherit;"/></p>
+<div style="box-sizing: inherit; display: block; margin: 1.5em 0px; font-family: monospace; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(215, 236, 255); background-color: rgba(144, 144, 144, 0.0980392); overflow-y: auto; background-position: initial initial; background-repeat: initial initial;">
+<table style="font-size:inherit;font-weight:inherit;font-style:inherit;font-variant:inherit;box-sizing:inherit;border-spacing:0px;border-collapse:collapse;background-color:transparent;width:100%;margin:0px;">
+<tbody style="box-sizing:inherit;">
+<tr style="border-left-style:initial;box-sizing:inherit;border-bottom-style:solid;border-bottom-color:rgb(215, 236, 255);border-image:initial;border-width:1px 0px;border-left-color:initial;border-right-style:initial;border-right-color:initial;background:none;border-top:0px;">
+<td style="box-sizing:inherit;width:40px;text-align:right;padding:8px;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;">1</div>
+</td>
+<td style="box-sizing:inherit;padding:8px;">
+<pre style="box-sizing: inherit; overflow: auto; font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 90%; margin-top: 0px; display: block; margin-bottom: 0px;"
+/>
+<div style="box-sizing:inherit;height:1.45em;"><span style="box-sizing:inherit;">#</span> <span style="box-sizing:inherit;">hashcat -b</span></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;"/>
+<p style="box-sizing:inherit;margin-top:0px;margin-bottom:1rem;">0x08 准备好各种散列hash,进行实际的hash破解测试,测试常用算法的实际破解速度</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<br/></div>
+</body></html>
