@@ -46,3 +46,12 @@ root@server:~/mysql$ mysql -u root -p < database.sql
 Enter password: 
 ```
 
+> 如果在恢复数据库时出现问题查看：database.sql 文件中是否有选择数据库
+
+```shell
+# 如果没有选择数据库就 vim database.sql
+# 在 sql 前面添加
+CREATE DATABASE `db_name`;
+USE `db_name`;
+```
+
