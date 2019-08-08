@@ -22,9 +22,9 @@ telnet localhost 22
 
 ```shell
 #将文件/文件夹`从远程拷至本地`(下载文件)
-scp -r <root>@<IP:192.168.10.83>:<ip-path> .
+scp -r <root>@<ip>:<ip-path> .
 
 #将文件/文件夹`从本地拷至远程`(发送文件)
-scp -r <local-path> <root>@<IP:192.168.10.83>:<ip-path>
+scp -r <local-path> <root>@<ip>:<ip-path>
 ```
 
