@@ -21,6 +21,10 @@ telnet localhost 22
 > 两台 linux 之间拷贝文件
 
 ```shell
-scp -r /root/path/ <root>@<IP:192.168.10.83>:/root/path
+#将文件/文件夹`从远程拷至本地`(下载文件)
+scp -r <root>@<IP:192.168.10.83>:<ip-path> .
+
+#将文件/文件夹`从本地拷至远程`(发送文件)
+scp -r <local-path> <root>@<IP:192.168.10.83>:<ip-path>
 ```
 
