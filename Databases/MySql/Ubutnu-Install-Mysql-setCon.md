@@ -1,6 +1,6 @@
 > ## Ubuntu 安装 MySql 并设置外链
 
-> 安装 MySql
+> deb 安装 MySql
 
 ```shell
 $ wget http://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
@@ -8,6 +8,14 @@ $ sudo dpkg -i mysql-apt-config_0.6.0-1_all.deb
 $ sudo apt-get update
 $ sudo apt-get install mysql-server-5.7
 $ mysql_secure_installation
+```
+
+> apt-get 安装 MySql
+
+```shell
+sudo apt-get update
+sudo apt-get install mysql-server mysql-client
+sudo mysql_secure_installation
 ```
 
 > 1.执行以下命令分配新用户：
